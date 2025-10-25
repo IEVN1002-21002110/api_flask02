@@ -1,6 +1,33 @@
 {% extends "layout.html" %}
+ {% import "_macros.html" as datos_macro %}
     {% block container%}
 
         <h1>distancia</h1>
+
+    <form action="" method="post">
+
+        {{ datos_macro.datos('distanciax1','Ingrese la distanciax1') }}
+ 
+        {{ datos_macro.datos('distanciay1','Ingrese la distanciay1') }}
+
+        {{ datos_macro.datos('distanciax2','Ingrese la distanciax2') }}
+
+        {{ datos_macro.datos('distanciay2','Ingrese la distanciay2') }}
+
+        <div class="mb-3">
+            <label for="operaci" class="form-label">operacion</label>
+            <select class="forme-select" name="operacion" id="operacion">
+                <option value="distanciaa">distancia</option>
+               <!-- <option value="resta">resta</option>
+                <option value="multiplicacion">multiplicacion</option>
+                <option value="division">division</option>-->
+            </select> 
+        </div>
+
+        <button type="submit" class="btn btn-primary">calcular</button>
+
+    </form>
+    <h1>La distacia es: {{dist}} </h1>
+
 
     {% endblock %}

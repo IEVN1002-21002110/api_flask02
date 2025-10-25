@@ -8,6 +8,7 @@
     <form action="" method="post">
 
         {{ datos_macro.datos('numero1','Ingrese el numero1') }}
+
         {{ datos_macro.datos('numero2','Ingrese el numero2') }}
 
         <div class="mb-3">
@@ -23,5 +24,6 @@
         <button type="submit" class="btn btn-primary">calcular</button>
 
     </form>
+    <h1>La operacion de {{numero1}} + {{numero2}} = {{res}} </h1>
 
     {% endblock %}
