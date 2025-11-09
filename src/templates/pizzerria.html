@@ -1,0 +1,117 @@
+{% extends "layout.html"%}
+{% block container %}
+
+<div class="container-principal">
+    <h3 class="titulo-principal">Sistema de Pedidos - Pizzería</h3>
+    
+    {% if mensaje %}
+    <div style="background-color: #ABEBC6; padding: 20px; margin-bottom: 25px; border: 3px solid #229954; border-radius: 8px; text-align: center;">
+        <h4 style="color: #145A32; margin: 0;">{{mensaje}}</h4>
+    </div>
+    {% endif %}
+    
+    <form action="" method="post" novalidate>
+        <div class="row">
+            <!-- Seccion Izquierda: Formulario y Lista -->
+            <div class="col-md-7">
+                <div class="box-form">
+                    <div class="input-field">
+                        <label>Nombre:</label>
+                        <input type="text" name="nombre_cliente" value="{{nombre_cli}}" required>
+                    </div>
+                    <div class="input-field">
+                        <label>Dirección:</label>
+                        <input type="text" name="direccion" value="{{direccion_cli}}" required>
+                    </div>
+                    <div class="input-field">
+                        <label>Teléfono:</label>
+                        <input type="text" name="telefono" value="{{telefono_cli}}" required>
+                    </div>
+                    
+                    <hr class="separador">
+
+                    <div class="input-field">
+                        <label style="vertical-align: top;">Tamaño:</label>
+                        <div style="display: inline-block;">
+                            <div class="radio-opciones">
+                                <label><input type="radio" name="tamano" value="Chica" required> Chica ($40)</label>
+                                <label><input type="radio" name="tamano" value="Mediana"> Mediana ($80)</label>
+                                <label><input type="radio" name="tamano" value="Grande"> Grande ($120)</label>
+                            </div>
+                        </div>
+                        
+                        <div class="seccion-ingredientes">
+                            <label style="width: auto; font-weight: bold; color: #1C2833;">Extras disponibles:</label>
+                            <label><input type="checkbox" name="ing_jamon" value="Jamon"> Jamón (+$10)</label>
+                            <label><input type="checkbox" name="ing_pina" value="Piña"> Piña (+$10)</label>
+                            <label><input type="checkbox" name="ing_champinones" value="Champiñones"> Champiñones (+$10)</label>
+                        </div>
+                        
+                        <div style="display: inline-block; margin-left: 40px; vertical-align: top;">
+                            <label style="width: auto; font-weight: bold;">Cantidad:</label><br>
+                            <input type="number" name="numero_pizzas" style="width: 90px; padding: 5px; border: 2px solid #2C3E50; border-radius: 4px;" min="1" value="1" required>
+                            <br><br>
+                            <button type="submit" name="btnAgregar" value="agregar" class="btn-accion">Agregar al pedido</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-tabla">
+                    <h5 style="color: #1C2833; margin-bottom: 15px;">Detalle del Pedido</h5>
+                    <table class="tabla-orden">
+                        <thead>
+                            <tr>
+                                <th>Tamaño Pizza</th>
+                                <th>Extras</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if pizzas %}
+                            {% for pizza in pizzas %}
+                            <tr>
+                                <td>{{pizza.tamano}}</td>
+                                <td>{{pizza.ingredientes}}</td>
+                                <td>{{pizza.numero_pizzas}}</td>
+                                <td>${{pizza.subtotal}}</td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td colspan="4" style="height: 120px; color: #7F8C8D;">No hay pizzas agregadas</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+
+                    <button type="submit" name="btnQuitar" value="quitar" class="btn-accion">Eliminar último</button>
+                    <button type="submit" name="btnTerminar" value="terminar" class="btn-accion" style="margin-left: 120px; background-color: #ABEBC6;">Confirmar Pedido</button>
+                </div>
+            </div>
+            
+            <!-- Seccion Derecha: Ventas -->
+            <div class="col-md-5">
+                <div class="box-ventas">
+                    <h4 style="text-align: center; margin-bottom: 25px; color: #1C2833;">Registro de Ventas</h4>
+                    <div style="min-height: 220px;">
+                        {% if mostrar_ventas and ventas %}
+                        {% set total_general = 0 %}
+                        {% for venta in ventas %}
+                        <p style="margin: 12px 0; color: #1C2833;"><strong>Cliente:</strong> {{venta.nombre}} - <strong>Total: ${{venta.total}}</strong></p>
+                        {% set total_general = total_general + venta.total %}
+                        {% endfor %}
+                        <hr class="separador">
+                        <div style="background-color: #F9E79F; padding: 15px; border-radius: 5px; margin-top: 15px;">
+                            <h5 style="text-align: center; color: #1C2833; margin: 0;"><strong>TOTAL DEL DÍA: ${{ventas|sum(attribute='total')}}</strong></h5>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" name="btnVentas" value="ventas" class="btn-accion" style="margin-top: 25px; width: 100%;">terminar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
